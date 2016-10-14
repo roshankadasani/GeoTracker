@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome/login</title>
+</head>
+<body>
+  <header>
+    <h1>Welcome to GeoTracker<h1>
+      <nav>
+        {{#if user}}
+        <a href="/">Dashboard</a>
+        <a href="/users/logout">Logout</a>
+        {{else}}
+        <a href="/users/login">Login</a>
+        <a href="/users/register">Register</a>
+        {{/if}}
+      </nav>
+  </header>
+  <main>
+    {{#if success_msg}}
+      <p>{{success_msg}}</p>
+    {{/if}}
+    {{#if error_msg}}
+      <p>{{error_msg}}</p>
+    {{/if}}
+    {{#if error}}
+      <p>{{error}}</p>
+    {{/if}}
+    {{{body}}}
+  </main>
+  <footer>
+    <p>&copy; 2016 GeoTracker, Inc.</p>
+  </footer>
+</body>
+</html>

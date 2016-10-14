@@ -1,0 +1,14 @@
+<h2>Agent Registration</h2>
+{{#if errors}}
+  {{#each errors}}
+    <h3>{{msg}}</h3>
+  {{/each}}
+{{/if}}
+<form method="post" action="/users/register">
+  <p><label>Agent Name: </label><input type="text" name="agent_name"></p>
+  <p><label>Agent ID: </label><input type="text" name="agent_id"></p>
+  <p><label>Agent E-mail: </label><input type="text" name="agent_email"></p>
+  <p><label>Password: </label><input type="password" name="password1"></p>
+  <p><label>Confirm Password: </label><input type="password" name="password2"></p>
+  <p><input type="submit" value="Login"></p>
+</form>
