@@ -9,6 +9,10 @@ router.get('/register', function(req, res){
 	res.render('register');
 });
 
+router.get('/maps.html', function(req, res){
+	res.render('maps');
+});
+
 router.get('/login', function(req, res){
 	res.render('login');
 });

@@ -1,1 +1,90 @@
 <h2>Welcome to Dashboard</h2>
+
+<div id="map">
+  <p>hello</p>
+</div>
+
+<script>
+  /*
+    NOTE: In order to create a google map instance
+    the JavaScript must be in the html file due to google's source
+    attribute in their script tag that calls google.maps.Map objects
+    and the callback function initMap.
+
+    This code was referenced from google maps API:
+    https://developers.google.com/maps/documentation/javascript/geolocation
+  */
+  function initMap() {
+
+    // Creates a new Google Map.
+    var map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: -34.397, lng: 150.644},
+      zoom: 16
+    });
+
+    // Creates a new information window for the coordinates found.
+    var infoWindow;
+    var infoWindowContents;
+
+    // Using HTML5's GeoLocation API
+    // This will check if the users accepts geolocation settings.
+    if (navigator.geolocation) {
+
+      navigator.geolocation.getCurrentPosition(function(position) {
+
+        // Gather latitude and longitude coordinates
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+
+        // Inserts a message and geo coords of the user.
+        // Also creates a button to send the user's info to the FBI.
+        infoWindowContents = '<h1>You have been located!</h1>' +
+          '<h2>Latitude: ' + pos.lat + '</h2>' +
+          '<h2>Longitude: ' + pos.lng + '</h2>' +
+          '<input type="textarea" id="message" placeholder="type your message"/>' +
+          '<button onclick="foo()" id="btn"/>Send FBI My Location</button>'
+          ;
+
+        infoWindow = new google.maps.InfoWindow({
+          map: map,
+          content: infoWindowContents
+        });
+
+        // Set the coordinates in the information window
+        infoWindow.setPosition(pos);
+        map.setCenter(pos);
+        },
+        function() {
+          handleLocationError(true, infoWindow, map.getCenter());
+        });
+    }
+    else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, infoWindow, map.getCenter());
+    }
+  }
+
+  function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+    infoWindow.setPosition(pos);
+    infoWindow.setContent(browserHasGeolocation ?
+                          'Error: The Geolocation service failed.' :
+                          'Error: Your browser doesn\'t support geolocation.');
+  }
+
+  var foo = function () {
+      alert("Message Sent");
+  }
+
+
+</script>
+<!--<script>
+
+</script>-->
+
+
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script async defer
+src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCDu1j-5rGFm1JyXdu6U3Y3YxNJ9fh_784&callback=initMap">
+</script>
