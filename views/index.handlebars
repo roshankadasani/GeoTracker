@@ -1,9 +1,8 @@
-<h2>Welcome to Dashboard</h2>
-
-<div id="map">
-  <p>hello</p>
+<h1>Welcome to Dashboard</h1>
+<p>Please click on the Red <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Icon.</p>
+<div id="main">
+  <div id="map"></div>
 </div>
-
 <script>
   /*
     NOTE: In order to create a google map instance
@@ -25,6 +24,7 @@
     // Creates a new information window for the coordinates found.
     var infoWindow;
     var infoWindowContents;
+    var redMarker;
 
     // Using HTML5's GeoLocation API
     // This will check if the users accepts geolocation settings.
@@ -40,25 +40,49 @@
 
         // Inserts a message and geo coords of the user.
         // Also creates a button to send the user's info to the FBI.
-        infoWindowContents = '<h1>You have been located!</h1>' +
-          '<h2>Latitude: ' + pos.lat + '</h2>' +
-          '<h2>Longitude: ' + pos.lng + '</h2>' +
-          '<input type="textarea" id="message" placeholder="type your message"/>' +
-          '<button onclick="foo()" id="btn"/>Send FBI My Location</button>'
-          ;
+        infoWindowContents = '<h2>You have been located!</h2>' +
+          '<p>Latitude: ' + pos.lat + '</p>' +
+          '<p>Longitude: ' + pos.lng + '</p>' +
+          '<textarea id="textbox" rows=4 cols=39>Enter your message</textarea>' +
+          '<p><input class="btn btn-primary" onclick=sendInfo() type="submit" id="mess" value="Send To FBI" /></p>';
 
         infoWindow = new google.maps.InfoWindow({
-          map: map,
           content: infoWindowContents
+          //map:map;
+        });
+
+        redMarker = new google.maps.Marker({
+          //animation: google.maps.Animation.DROP
+          position: pos,
+          map: map,
+          title: 'Click Me'
+        });
+
+        redMarker.addListener('click', function() {
+          infoWindow.open(map, redMarker);
         });
 
         // Set the coordinates in the information window
         infoWindow.setPosition(pos);
         map.setCenter(pos);
+
+        // Sending the Geolocation variables to the button
+        // that is activating the script via COOKIES.
+        // Converting the JS object to a string.
+        pos = JSON.stringify(pos);
+        // Encodes a WindowBase64 ASCII string.
+        // This code is a reference from the following sources:
+        // More info: https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/btoa
+        pos = btoa(pos);
+        // Saves the encoded string to web storage, cookie.
+        // More info: https://hacks.mozilla.org/2009/06/localstorage/
+        // More info: https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
+        localStorage.setItem('coords_key', pos);
         },
         function() {
           handleLocationError(true, infoWindow, map.getCenter());
         });
+
     }
     else {
       // Browser doesn't support Geolocation
@@ -72,18 +96,32 @@
                           'Error: The Geolocation service failed.' :
                           'Error: Your browser doesn\'t support geolocation.');
   }
-
-  var foo = function () {
-      alert("Message Sent");
-  }
-
-
 </script>
-<!--<script>
+<script>
+  function sendInfo() {
 
-</script>-->
+    var message = $('#textbox').val();
+    console.log(message);
 
+    var gpsCoordinates = localStorage.getItem('coords_key');
+    gpsCoordinates = atob(gpsCoordinates);
 
+    var emailObject = JSON.parse(gpsCoordinates);
+
+    console.log(emailObject);
+
+    emailObject.message = message;
+
+    console.log(emailObject);
+    emailObject = JSON.stringify(emailObject);
+
+    console.log(emailObject);
+    $.post('/', emailObject, function(result) {
+      console.log("Server sent data back..");
+    });
+
+  }
+</script>
 <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 <script async defer
 src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCDu1j-5rGFm1JyXdu6U3Y3YxNJ9fh_784&callback=initMap">

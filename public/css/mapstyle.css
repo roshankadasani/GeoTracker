@@ -1,9 +1,13 @@
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  background-color: #ABB2B9;
+#main{
+  height: 435px;
 }
+
 #map {
-  height: 500px;
+  min-height: 100%;
+  max-height: 100%;
+}
+
+#footer{
+  background-color: black;
+  color: white;
 }
