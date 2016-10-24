@@ -3,6 +3,7 @@
 <html>
 <head>
   <title>GeoTracker</title>
+  <link rel="icon" type="image/png" href="/img/map.png"/>
   <link rel="stylesheet" type="text/css" href="/css/mapstyle.css">
   <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
   <link rel="stylesheet" type="text/css" href="/css/sticky-footer.css">
@@ -42,15 +43,21 @@
     <div class="container-fluid">
       {{{body}}}
     </div>
-    {{#if success_msg}}
-      <div class="alert alert-success" role="alert">{{success_msg}}</div>
-    {{/if}}
-    {{#if error_msg}}
-      <div class="alert alert-danger" role="alert">{{error_msg}}</div>
-    {{/if}}
-    {{#if error}}
-      <div class="alert alert-danger" role="alert">{{error}}</div>
-    {{/if}}
+    <div class="container container-table">
+      <div class="row vertical-center-row">
+        <div class="text-center col-md-4 col-md-offset-4">
+          {{#if success_msg}}
+            <div class="alert alert-success" role="alert">{{success_msg}}</div>
+          {{/if}}
+          {{#if error_msg}}
+            <div class="alert alert-danger" role="alert">{{error_msg}}</div>
+          {{/if}}
+          {{#if error}}
+            <div class="alert alert-danger" role="alert">{{error}}</div>
+          {{/if}}
+        </div>
+      </div>
+    </div>
   </main>
   <!--- Main end --->
   <!--- Footer Start --->
