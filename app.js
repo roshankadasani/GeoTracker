@@ -78,15 +78,31 @@ app.listen(app.get('port'), function(){
 	console.log('Server started on port '+app.get('port'));
 });
 
+var nodemailer = require('nodemailer');
+
+// create reusable transporter object using the default SMTP transport
+var transporter = nodemailer.createTransport({ service: 'Gmail', auth: { user: 'nodemailer212@gmail.com', pass: 'jazzMuhtazz' } });
+
 app.post('/', function(req, res) {
+  var userLat = req.body.lat;
+  var userLng = req.body.lng;
+  var userMsg = req.body.msg;
+  var userName;
+  var userLocation = {
+        lat: userLat,
+        lng: userLng,
+        message: userMsg
+  };
+
   db.collection('users').save(req.body, (err, result) => {
     if (err) return console.log(err)
     console.log('Server Speaking by request');
-    var userLocation = req.body.userInfo;
-    userLocation = JSON.parse(userLocation);
-    console.log(userLocation);
-    var userId = req.user.agent_id;
-    var userName = req.user.agent_name;
+    console.log("Latitude: " + userLat);
+    console.log("Longitude" +userLng);
+    console.log("Message: " + userMsg);
+    
+    userId = req.user.agent_id;
+    userName = req.user.agent_name;
 
     db.collection('locations').insert({
       "username": userName,
@@ -96,5 +112,24 @@ app.post('/', function(req, res) {
     
     console.log('saved to database');
 
-  })
+    // setup e-mail data with unicode symbols
+    var mailOptions = {
+      from: userName, // sender address
+      to: 'fredchuk13@gmail.com', // list of receivers
+      subject: 'User Location for FBI', // Subject line
+      text: "User Name: " + userName + ', Latitude: ' + userLat + ', Longitude: ' + userLng + ', Message: ' + userMsg, // plaintext body
+      html: "User Name: " + userName + ', Latitude: ' + userLat + ', Longitude: ' + userLng + ', Message: ' + userMsg // html body
+    };
+
+    // send mail with defined transport object
+    transporter.sendMail(mailOptions, function(error, info){
+      if(error){
+        res.json({'result': "Email error"});
+        return console.log(error);
+      }
+      console.log('Message sent: ' + info.response);
+    })
+
+    res.json({'result': "Email successfully sent!"});
+  })  
 });
