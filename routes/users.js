@@ -41,7 +41,7 @@ router.post('/register', function(req, res){
 			agent_name: agent_name,
 			agent_email: agent_email,
 			agent_id: agent_id,
-			password1: password1
+			password1: password1,
 		});
 
 		User.createUser(newUser, function(err, user){

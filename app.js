@@ -79,9 +79,22 @@ app.listen(app.get('port'), function(){
 });
 
 app.post('/', function(req, res) {
-  console.log('Server Speaking by request');
-  var emailObject = req.body;
-  console.log(emailObject);
-  //emailObject = JSON.parse(emailObject);
-  //console.log(emailObject);
+  db.collection('users').save(req.body, (err, result) => {
+    if (err) return console.log(err)
+    console.log('Server Speaking by request');
+    var userLocation = req.body.userInfo;
+    userLocation = JSON.parse(userLocation);
+    console.log(userLocation);
+    var userId = req.user.agent_id;
+    var userName = req.user.agent_name;
+
+    db.collection('locations').insert({
+      "username": userName,
+      "userid": userId,
+      "location": userLocation
+    });
+    
+    console.log('saved to database');
+
+  })
 });
