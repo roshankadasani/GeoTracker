@@ -15,3 +15,8 @@
 #form{
   max-width: 50%;
 }
+
+#left_col{
+  max-height: 435px;
+  overflow-y: scroll;
+}

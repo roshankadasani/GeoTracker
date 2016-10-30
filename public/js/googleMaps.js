@@ -96,21 +96,21 @@ var sendInfo = function() {
   // Grabing users postion and message.
   var message = $('#textbox').val();
   pos.message = message;
-  var userInfo = pos;
-  console.log(userInfo);
 
-  // Stringifying object before sending it to the server
-  var data = {'userInfo':JSON.stringify(userInfo)};
-  console.log(data);
-  alert("Message Sent");
-  $("#textbox").val("");
-
-  $.post('/', data, function(result) {
-
-    console.log("Server responded");
-    console.log(result);
-
-  });
+  $.ajax(
+  {
+    url: 'http://localhost:3000',
+    type: 'post',
+    dataType: 'json',
+    data: JSON.stringify({"lat": pos.lat, "lng": pos.lng, "msg": pos.message }),
+    contentType: 'application/json',
+    success: function(data)
+    {
+      console.log("Server responded");
+      alert(data.result);
+      $("#textbox").val("");
+    }
+  })
 };
 
 $('#sendFBI').on('click', function() {

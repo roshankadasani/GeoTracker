@@ -17,6 +17,10 @@ router.get('/login', function(req, res){
 	res.render('login');
 });
 
+router.get('/sentlocations', function(req, res){
+	res.render('sentlocations');
+});
+
 router.post('/register', function(req, res){
 	var agent_name = req.body.agent_name;
 	var agent_id = req.body.agent_id;
@@ -54,6 +58,7 @@ router.post('/register', function(req, res){
 	}
 });
 
+
 passport.use(new LocalStrategy(
   function(username, password, done) {
    User.getUserByUserId(username, function(err, user){
@@ -73,6 +78,7 @@ passport.use(new LocalStrategy(
 	 });
   }));
 
+
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
@@ -82,6 +88,8 @@ passport.deserializeUser(function(id, done) {
     done(err, user);
   });
 });
+
+
 
 router.post('/login',
   passport.authenticate('local', {successRedirect:'/', failureRedirect:'/users/login',failureFlash: true}),

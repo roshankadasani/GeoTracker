@@ -1,0 +1,18 @@
+
+<div class="container">
+<h3><a href="/get-location">View Recent Loactions</a></h3>
+  <table class="table table-bordered">
+    <tr>
+      <th>Latitude</th>
+      <th>Longitude</th>
+      <th>Message</th>
+    </tr>
+    {{# each items }}
+    <tr>
+      <td>{{ this.location.lat}}</td>
+      <td>{{ this.location.lng}}</td>
+      <td>{{ this.location.message}}</td>
+    </tr>
+    {{/each}}
+  </table>
+</div>

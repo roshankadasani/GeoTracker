@@ -67,7 +67,18 @@ app.use(function (req, res, next) {
   next();
 });
 
-
+app.get('/get-location', function (req,res) {
+  var resultArray = [];
+  var user = req.user.agent_id;
+  var cursor = db.collection('locations').find({ userid: { $eq: user }});
+  cursor.forEach(function (doc, err) {
+    if (err) return console.log(err);
+    resultArray.push(doc);
+  }, function () {
+    db.close();
+    res.render('sentlocations', {items: resultArray});
+  });
+});
 
 app.use('/', routes);
 app.use('/users', users);
@@ -78,13 +89,29 @@ app.listen(app.get('port'), function(){
 	console.log('Server started on port '+app.get('port'));
 });
 
+var nodemailer = require('nodemailer');
+
+// create reusable transporter object using the default SMTP transport
+var transporter = nodemailer.createTransport({ service: 'Gmail', auth: { user: 'nodemailer212@gmail.com', pass: 'jazzMuhtazz' } });
+
 app.post('/', function(req, res) {
+  var userLat = req.body.lat;
+  var userLng = req.body.lng;
+  var userMsg = req.body.msg;
+  var userName;
+  var userLocation = {
+        lat: userLat,
+        lng: userLng,
+        message: userMsg
+  };
+
   db.collection('users').save(req.body, (err, result) => {
     if (err) return console.log(err)
     console.log('Server Speaking by request');
-    var userLocation = req.body.userInfo;
-    userLocation = JSON.parse(userLocation);
-    console.log(userLocation);
+    console.log("Latitude: " + userLat);
+    console.log("Longitude" +userLng);
+    console.log("Message: " + userMsg);
+
     var userId = req.user.agent_id;
     var userName = req.user.agent_name;
 
@@ -93,8 +120,27 @@ app.post('/', function(req, res) {
       "userid": userId,
       "location": userLocation
     });
-    
+
     console.log('saved to database');
 
+    // setup e-mail data with unicode symbols
+    var mailOptions = {
+      from: userName, // sender address
+      to: 'roshan.savio93@gmail.com', // list of receivers
+      subject: 'User Location for FBI', // Subject line
+      text: "User Name: " + userName + ', Latitude: ' + userLat + ', Longitude: ' + userLng + ', Message: ' + userMsg, // plaintext body
+      html: "User Name: " + userName + ', Latitude: ' + userLat + ', Longitude: ' + userLng + ', Message: ' + userMsg // html body
+    };
+
+    // send mail with defined transport object
+    transporter.sendMail(mailOptions, function(error, info){
+      if(error){
+        res.json({'result': "Email error"});
+        return console.log(error);
+      }
+      console.log('Message sent: ' + info.response);
+    })
+
+    res.json({'result': "Email successfully sent!"});
   })
 });
