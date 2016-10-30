@@ -1,6 +1,7 @@
 
 <div class="container">
-<h3><a href="/get-location">View Recent Loactions</a></h3>
+<!--<h3><a href="/get-location">View Recent Loactions</a></h3>-->
+<button onclick="test()">View Recent Loactions</button>
   <table class="table table-bordered">
     <tr>
       <th>Latitude</th>
@@ -15,4 +16,14 @@
     </tr>
     {{/each}}
   </table>
+  <h1>{{message}}</h1>
 </div>
+<script>
+function test() {
+  $.ajax({
+    type: 'GET',
+    url: '/get-location'
+  });
+}
+</script>
+-->

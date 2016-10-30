@@ -67,18 +67,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get('/get-location', function (req,res) {
-  var resultArray = [];
-  var user = req.user.agent_id;
-  var cursor = db.collection('locations').find({ userid: { $eq: user }});
-  cursor.forEach(function (doc, err) {
-    if (err) return console.log(err);
-    resultArray.push(doc);
-  }, function () {
-    db.close();
-    res.render('sentlocations', {items: resultArray});
-  });
-});
 
 app.use('/', routes);
 app.use('/users', users);
@@ -87,6 +75,25 @@ app.set('port', (process.env.PORT || 3000));
 
 app.listen(app.get('port'), function(){
 	console.log('Server started on port '+app.get('port'));
+});
+
+app.get('/test1', function (req,res) {
+  res.send("Ajax Works");
+});
+
+app.get('/get-location', function (req,res) {
+  console.log("inside get-location");
+  var resultArray = [];
+  console.log("initialized array");
+  var user = req.user.agent_id;
+  var cursor = db.collection('locations').find({ userid: { $eq: user }});
+  cursor.forEach(function (doc, err) {
+    if (err) return console.log(err);
+    resultArray.push(doc);
+  }, function () {
+    db.close();
+    res.render('/sentlocations', {items: resultArray});
+  });
 });
 
 var nodemailer = require('nodemailer');
