@@ -99,7 +99,7 @@ var sendInfo = function() {
 
   $.ajax(
   {
-    url: 'http://localhost:3000',
+    url: '/',
     type: 'post',
     dataType: 'json',
     data: JSON.stringify({"lat": pos.lat, "lng": pos.lng, "msg": pos.message }),
