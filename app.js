@@ -77,6 +77,14 @@ app.listen(app.get('port'), function(){
 	console.log('Server started on port '+app.get('port'));
 });
 
+app.get('/get-location', function (req,res) {
+  var user = req.user.agent_id;
+  db.collection('locations').find({ userid: { $eq: user }}).toArray(function (err, resultArray) {
+    if (err) return console.log(err);
+    res.render('sentlocations', {items: resultArray});
+  });
+});
+
 var nodemailer = require('nodemailer');
 
 // create reusable transporter object using the default SMTP transport
