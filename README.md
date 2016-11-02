@@ -9,7 +9,7 @@ A Web application that helps users to reachout to government officials to report
 <li>Install <a href="https://www.virtualbox.org/">VirtualBox 5.0.14 or later</a></li>
 <li>Install <a href="https://www.vagrantup.com/">Vagrant</a></li>
 <li>Install <a href="https://git-scm.com/">Git</a></li>
-<li><a href="https://github.com/ProfAvery/node-box">Clone repository for Node-box</a>: git clone https://github.com/ProfAvery/node-box.git</li>
+<li><a href="https://github.com/ProfAvery/node-box">Clone repository for Node-box</a>: `git clone https://github.com/ProfAvery/node-box.git`</li>
 <li>Place project into shared folder in Node-box local repository</li>
 <li>Via CMD in node-box repository:</li>
 <li>Type vagrant up</li>
