@@ -1,8 +1,8 @@
 # <a href="https://geotracker-473.herokuapp.com" target="_blank">GeoTracker</a>
 
-A Web application that helps users to reachout to gevernment officials to roport their current locations and send message. 
+A Web application that helps users to reachout to government officials to report their current location and send message. 
 
-<a href="https://nodejs.org/en/">Node.js</a> | <a href="https://expressjs.com/">Express 4</a> | <a href="https://www.heroku.com/">Heroku Cloud Platform</a> | <a href="http://passportjs.org/">passport js authentication</a> | <a href="https://www.mongodb.com/">MangoDB</a> | <a href="http://mongoosejs.com/">Mongoose ODM</a> | <a href="http://getbootstrap.com/">Bootstrap framework</a>
+<a href="https://nodejs.org/en/">Node.js</a> | <a href="https://expressjs.com/">Express 4</a> | <a href="https://www.heroku.com/">Heroku Cloud Platform</a> | <a href="http://passportjs.org/">passport js authentication</a> | <a href="https://www.mongodb.com/">MongoDB</a> | <a href="http://mongoosejs.com/">Mongoose ODM</a> | <a href="http://getbootstrap.com/">Bootstrap framework</a>
 
 <strong>Installation & Setup Instructions:</strong>
 <ul>
